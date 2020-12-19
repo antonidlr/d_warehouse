@@ -3,34 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main_style.css">
     <title>Data Warehouse</title>
 </head>
-<body>
+<body class="theme-day">
     <header>
-        <div>
-            <h3>LOGO</h3>
-        </div>
-        <div>
-            <ul>
-                <li><a href="#">Contactos</a></li>
-                <li><a href="#">Compañias</a></li>
-                <li><a href="#">Usuarios</a></li>
-                <li><a href="#">Región/Ciudad</a></li>
-            </ul>
-        </div>
+        <section class="header__main">
+            <div>
+                <h3 class="header__logo">LOGO</h3>
+            </div>
+            <div class="header__menu">
+                <ul>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="#">Contactos</a>
+                            <hr>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="#">Compañias</a>
+                            <hr>
+                        </div>
+                        </li>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="#">Usuarios</a>
+                            <hr>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="#">Región / Ciudad</a>
+                            <hr>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
     </header>
     <main>
-        <section>
-            <div><h3>Contactos</h3></div>
-            <div>
-                <input type="text">
-                <button>Buscar</button>
+        <section class="main__search">
+            <div class="search__title"><h3>Contactos</h3></div>
+            <div class="second__search">
+                <div class="search__section">
+                    <input class="search__bar" type="text">
+                    <button class="search__button"><img width="18px" src="assets/search.svg" alt="">
+                    </button>
+                </div>
+                <div>
+                    <button></button>
+                    <button>Exportar contactos</button>
+                    <button>Agregar contacto</button>
+                </div>
             </div>
-            <div>
-                <button></button>
-                <button>Exportar contactos</button>
-                <button>Agregar contacto</button>
-            </div>
+           
         </section>
         <section>
             <table>
