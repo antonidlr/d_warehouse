@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main_style.css">
     <title>Data Warehouse</title>
@@ -27,7 +30,7 @@
                             <a class="menu__link" href="#">Compañias</a>
                             <hr>
                         </div>
-                        </li>
+                    </li>
                     <li>
                         <div class="menu__items">
                             <a class="menu__link" href="#">Usuarios</a>
@@ -50,77 +53,133 @@
             <div class="search__title"><h3>Contactos</h3></div>
             <div class="second__search">
                 <div class="search__section">
-                    <input class="search__bar" type="text">
+                    <div class="search__bar">
+                        <input class="search__input"  type="text">
+                        <button class="drop_down"><img src="assets/arrow_down.svg" alt="arrow_down"></button>
+                    </div>
+                    
                     <button class="search__button"><img width="18px" src="assets/search.svg" alt="">
                     </button>
                 </div>
-                <div>
-                    <button></button>
-                    <button>Exportar contactos</button>
-                    <button>Agregar contacto</button>
+                <div class="main__selection">
+                    <button class="main__button import__button"><img class="import_img" src="assets/upload_blue.svg" alt=""></button>
+                    <button class="main__button">Exportar contactos <img class="arrow" src="assets/arrow_down_blue.svg" alt="arrow_down"></button>
+                    <button class="main__button blue__button">Agregar contacto</button>
                 </div>
             </div>
-           
+
+            <section class="data__form">
+                <div class="form__selection">
+                    <div class="inline">
+                        <p>Nombre del contacto</p>
+                        <input type="text" placeholder="Introduce el nombre del contacto">
+                    </div>
+                    <div class="inline">
+                        <p>Cargo</p>
+                        <input type="text" placeholder="Introduce el cargo del contacto">
+                    </div>
+                    <div class="inline space">
+                        <p>País/Región</p> 
+                        <select class="select-selected" id="country" name="country">
+                            <option value="0">Todos</option>
+                        </select>
+                    </div>
+                    <div class="inline space">
+                        <p>Compañía</p> 
+                        <select id="company" name="company">
+                            <option value="0">Todas</option>
+                        </select>
+                    </div>
+                    <div class="inline space">
+                        <p>Canal Favorito</p> 
+                        <select id="favorite" name="favorite">
+                            <option value="0">Cualquiera</option>
+                        </select>
+                    </div>
+                    <div class="inline space">
+                        <p>Interés</p> 
+                        <select id="interest" name="interest">
+                            <option value="0">Cualquiera</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </section>
+            
         </section>
-        <section>
-            <table>
-                <tr>
-                    <th><input type="checkbox"></th>
-                    <th><div><p>Contacto</p><button>up</button></div></th>
-                    <th><div><p>País/Región</p><button>up</button></div></th>
-                    <th><div><p>Compañia</p><button>up</button></div></th>
-                    <th><div><p>Cargo</p><button>up</button></div></th>
-                    <th><div><p>Canal preferido</p></div></th>
-                    <th><div><p>Interés</p><button>up</button></div></th>
-                    <th><div><p>Acciones</p></div></th>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>
+        <br>
+        <section class="table-data">
+            <div class="table">
+                <div class="row row-hd">
+                    <div class="col-1 cell-center"><input type="checkbox"></div>
+                    <div class="col-2 center align-pad">Contacto<button class="filter_button"><img class="filter_img" src="assets/filter.svg" alt="filter"></button></div>
+                    <div class="col-3 center align-pad">País / Región<button class="filter_button"><img class="filter_img" src="assets/filter.svg" alt="filter"></button></div>
+                    <div class="col-3 center align-pad">Compañía<button class="filter_button"><img class="filter_img" src="assets/filter.svg" alt="filter"></button></div>
+                    <div class="col-3 center align-pad">Cargo<button class="filter_button"><img class="filter_img" src="assets/filter.svg" alt="filter"></button></div>
+                    <div class="col-4 center align-pad">Canal preferido</div>
+                    <div class="col-3 center align-pad">Interés<button class="filter_button"><img class="filter_img" src="assets/filter.svg" alt="filter"></button></div>
+                    <div class="col-5 center align-center">Acciones</div>
+                </div>
+                <div class="row row-dt">
+                    <div class="col-1 cell-center"><input type="checkbox"></div>
+                    <div class="col-2 center align-pad">
+                        <img class="profile_img" src="assets/icon_image.svg" alt="pic">
                         <div>
-                            <img src="#" alt="pic">
-                            <div>
-                                <p>Antonio de los Rios</p>
-                                <p>antoniodelosrios22@gmail.com</p>
-                            </div>
+                            <p>Antonio de los Rios</p>
+                            <p class="sub-text">antoniodelosrios22@gmail.com</p>
                         </div>
-                    </td>
-                    <td>
-                        <div>
+                    </div>
+                    <div class="col-3 center align-pad">
+                        <div >
                             <p>Argentina</p>
-                            <p>Latam</p>
+                            <p class="sub-text">Latam</p>
                         </div>
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-3 center align-pad">
                         <p>Ecom Experts</p>
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-3 center align-pad">
                         <p>UX Designer</p>
-                    </td>
-                    <td><div><p>Whatsapp</p></div></td>
-                    <td><p>100%</p><div></div></td>
-                    <td>
-                        <button>...</button>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                    <div class="col-4 center align-pad">
+                        <div><p>Whatsapp</p></div>
+                    </div>
+                    <div class="col-3 center align-pad"><p>100%</p><div></div></div>
+                    <div class="col-5 center align-center">Acciones</div>
+                </div>
+            </div>
+
         </section>
+        <br>
+        <br>
+        <section class="data-index">
+            <div class="main-index">
+                <div class="index">
+                    <p>Filas por página </p>
+                    <p> 10</p>
+                    <button class="filter_button"><img class="filter_img" src="assets/arrow_filter.svg" alt="arrow"></button>
+                </div>
+                <div class="index">
+                    <p>1 - <span></span> de <span></span> filas</p>
+                    <button class="filter_button"><img class="filter_img" src="assets/left_arrow.svg" alt="arrow"></button>
+                    <button class="filter_button"><img class="filter_img" src="assets/right.svg" alt="arrow"></button>
+                </div>
+            </div>
+        </section>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <section>
+            
+        </section>
+
+        <!-- <span style="color: red !important; display: inline; float: none;">*</span>  -->
+
     </main>
     <footer>
-        <div>
-            <div>
-                <p>Filas por página</p>
-                <p>10</p>
-                <button>up</button>
-            </div>
-            <div>
-                <p>1-<span></span> de <span></span> filas</p>
-                <button>up</button>
-                <button>do</button>
-            </div>
-            
-
-        </div>
+        
     </footer>
     
 </body>
