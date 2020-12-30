@@ -82,3 +82,7 @@ main {
   color: var(--white);
   background-color: var(--blue);
   border: 1px solid #CCCCCC; }
+
+.a_list {
+  margin-top: 15px;
+  color: var(--lgrey); }
