@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main_style.css">
+    <link rel="stylesheet" href="/d_warehouse/dist/themes/default/style.min.css" />
+    <link rel="stylesheet" href="../css/region_style.css">
+    <title>Data Warehouse</title>
+</head>
+<body class="theme-day">
+    <header>
+        <section class="header__main">
+            <div>
+                <a class="header__logo" href="/d_warehouse/index.html">D-Warehouse</a>
+            </div>
+            <div class="header__menu">
+                <ul>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="/d_warehouse/index.html">Contactos</a>
+                            <hr>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="#">Compañias</a>
+                            <hr>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="/d_warehouse/html/users.html">Usuarios</a>
+                            <hr>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu__items">
+                            <a class="menu__link" href="/d_warehouse/html/region.html">Región / Ciudad</a>
+                            <hr>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+    </header>
+    
+    <main>
+        <div class="add_section">
+            <button class="add_button"><img class="box-img" src="../assets/cross_white.svg" alt="add">Agregar región</button>
+            <div class="add-input">
+                <input class="add-text" type="text" placeholder="Ingresar región">
+                <button class="b-add">Guardar</button>
+                <button class="b-add">Cancelar</button>
+            </div>
+            
+        </div>
+        
+        <section class="main__region">
+            <h2>Región</h2> 
+            <!-- <div class="box-region">
+                <div class="sec-region">
+                    <a class="a-region" href="#">Sudamerica</a>
+                </div>
+                
+                <div class="box-country b-align">
+                    <h3>País</h3>
+                    <select class="b-country b-select" name="country">
+                        <option value="0">Selecciona </option>
+                        <option value="1">Colombia</option>
+                    </select>
+                    <button class="add-country b-region b-margin"> <img class="box-img" src="../assets/cross_white.svg" alt="add"> Agregar </button>
+                    <div class="edit-item">
+                        <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
+                        <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="box-city b-align">
+                    <h3>Ciudad</h3>
+                    <select  class="b-city b-select" name="city">
+                        <option value="0">Selecciona </option>
+                        <option value="1">Bogotá</option>
+                        <option value="3">Medellin</option>
+                        <option value="2">Cali</option>
+                    </select>
+                    <button class="add-city b-region b-margin"> <img class="box-img" src="../assets/cross_white.svg" alt="add"> Agregar </button>
+                    <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
+                    <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
+                    <div class="add-item">
+                        <input class="add-text" type="text" placeholder="Ingresar ciudad">
+                        <button class="b-add">Guardar</button>
+                        <button class="b-add">Cancelar</button>
+                    </div>
+                    
+                </div>
+            </div> -->
+
+            <!-- <div id="jstree">
+                in this example the tree is populated from inline HTML 
+                <ul>
+                    <li class="order">Sudamerica
+                        <ul>
+                            <li id="child_node_1">Argentina</li>
+                            <li>Colombia</li>
+                        </ul>
+                    </li>
+                    <li class="order">Norteamerica
+                        <ul>
+                            <li id="child_node_2">Canada</li>
+                            <li>USA</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button>demo button</button>  -->
+            
+        </section>
+        
+    </main>
+    
+    
+    <script src="/d_warehouse/dist/jquery.js"></script>
+    <script src="/d_warehouse/dist/jstree.min.js"></script>
+    <script src="/d_warehouse/javascript/jstree_region.js"></script>
+    
+</body>
+</html>
