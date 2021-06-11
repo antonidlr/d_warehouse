@@ -1,22 +1,4 @@
 
-//JSTREE
-/*
-$(function () {
-    // 6 create an instance when the DOM is ready
-    $('#jstree').jstree();
-    // 7 bind to events triggered on the tree
-    $('#jstree').on("changed.jstree", function (e, data) {
-        console.log(data.selected);
-    });
-    // 8 interact with the tree - either way is OK
-    $('button').on('click', function () {
-        $('#jstree').jstree(true).select_node('child_node_1');
-        $('#jstree').jstree('select_node', 'child_node_1');
-        $.jstree.reference('#jstree').select_node('child_node_1');
-    });
-});
-*/
-
 //Variables Region
 
 const addRegion = document.getElementsByClassName('add_button')[0];
@@ -74,7 +56,7 @@ addButtonRegion[1].addEventListener('click', () => {
 })
 
 function getRegion () {
-    const valueRegion = inputText.value;
+    const valueRegion = inputText.value.toUpperCase();
     if (!searchRegion(valueRegion, regions) && valueRegion != "") {
         let region = {
             region: valueRegion
@@ -101,31 +83,32 @@ function addingRegionHtml (value) {
     const section = `
     <div class="box-region">
         <div class="sec-region">
-        <a class="a-region" href="#">${value}</a>
+            <a class="a-region" href="#">${value}</a>
+            <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
         </div>
     </div>
     
     <div class="box-country b-align">
         <h3>País</h3>
         <select class="b-country b-select" name="country">
-        <option value="0">Selecciona </option>
+            <option value="0">Selecciona </option>
         </select>
         <button class="add-country b-region b-margin"> <img class="box-img" src="../assets/cross_white.svg" alt="add"> Agregar </button>
         <div class="edit-item">
-        <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
-        <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
+            <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
+            <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
         </div>
     </div>
     
     <div class="box-city b-align">
         <h3>Ciudad</h3>
         <select class="b-city b-select" name="city">
-        <option value="0">Selecciona </option>
+            <option value="0">Selecciona </option>
         </select>
         <button class="add-city b-region b-margin"> <img class="box-img" src="../assets/cross_white.svg" alt="add"> Agregar </button>
         <div class="edit-item">
-        <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
-        <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
+            <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
+            <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
         </div>
     </div>
     `;
@@ -146,7 +129,6 @@ function checkItem () {
                 
                 addingEventlistener(item,element);
 
-                
             })
         })
     })
@@ -158,7 +140,6 @@ function checkItem () {
                 
                 addingEventlistener(item,element);
             
-                
             })
         })
     })
