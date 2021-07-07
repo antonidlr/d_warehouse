@@ -47,7 +47,10 @@ let arrayTest = [];
 //Variable Country and City
 
 let listCountry = undefined;
-let listCity = undefined;
+let listCity = [];
+
+// Array of Objects for Database, Edit and Delete
+let regionArray = [];
 
 class User {
     constructor(name, lastname, email, user, pass, status) {
@@ -60,7 +63,22 @@ class User {
     }
 }
 
+class City {
+    constructor(region, country, city) {
+        this.region = region;
+        this.country = country;
+        this.city = city;
+    }
+}
+
 const newUser = new User('antonio', 'delosrios', 'antoniodelosrios22@gmail.com');
+const newCity = new City('ASIA', 'China', 'Beijing');
+const newCity2 = new City('EUROPA','Francia', 'Paris' );
+const newCity3 = new City('ASIA');
+listCity.push(newCity);
+listCity.push(newCity2);
+listCity.push(newCity3);
+listCity[2].country = 'China';
 
 // Adding Region
 
@@ -102,10 +120,16 @@ function getRegion () {
         arrayTest.push(valueReg)
         console.log(arrayTest);
         regions.push(region);
+
+        const newRegion = new City(`${valueRegion}`);
+        regionArray.push(newRegion);
+        console.log(regionArray);
+
         addingRegionHtml(valueRegion);
         addingIdRegion();
         checkItem();
-        editListener();
+
+        //editListener();
         
     }
 }
@@ -160,7 +184,7 @@ function addingRegionHtml (value) {
     sectionRegion.insertAdjacentHTML('beforeend',section);
 };
 
-// Adding ID to Region 
+// Adding ID to Region - Create Node with Region and buttons
 
 function addingIdRegion () {
     const totalRegion = document.getElementsByClassName('main-box-region');
@@ -248,7 +272,7 @@ function qRegion (region) {
 }
 
 function changeValue () {
-    
+
 }
 
 // Adding Country and City ------------------------------------------------------------
@@ -298,13 +322,26 @@ function addCountry (item, element) {
             const newVal = input.value;
             const regionParent = item.parentNode;
             const valueRegion = regionParent.querySelector('.a-region').innerText;
+            console.log(valueRegion);
             for(let i = 0; i < totalRegion.length; i++) {
                 if(arrayTest[i].hasOwnProperty(valueRegion)) {
                     arrayTest[i][valueRegion][newVal] = {};
                 }
             }
             
-            
+            //Go through RegionArray
+            // for(let i = 0; i < regionArray.length; i++) {
+            //     if(regionArray[i].region == valueRegion && regionArray[i].country == undefined) {
+            //         regionArray[i].country = input.value;
+            //         break;
+            //     } else {
+            //         const newRegion = new City(`${valueRegion}`,`${input.value}`);
+            //         regionArray.push(newRegion);
+            //         break;
+            //     }
+            // }
+            addCountryToObject(valueRegion, input.value);
+
             const addItem = item.getElementsByClassName('add-item')[0];
             addItem.remove();
             editingItem(item);
@@ -328,6 +365,8 @@ function addCountry (item, element) {
                 }
             }
             
+            addCountryToObject(valueRegion, input.value);
+
             const addItem = item.getElementsByClassName('add-item')[0];
             addItem.remove();
             editingItem(item);
@@ -382,6 +421,20 @@ function addCity (item, element) {
                     Obj[str] = newVal;
                 }
             }
+            
+            //Go through RegionArray
+            // for(let i = 0; i < regionArray.length; i++) {
+            //     if(regionArray[i].region == valueRegion && regionArray[i].country == countryValue && regionArray[i].city == undefined) {
+            //         regionArray[i].city = input.value;
+            //         break;
+            //     } else {
+            //         const newRegion = new City(`${valueRegion}`,`${countryValue}`, `${input.value}`);
+            //         regionArray.push(newRegion);
+            //         break;
+            //     }
+            // }
+
+            addCityToObject(valueRegion, countryValue, input.value);
 
             addItem.remove();
             editingItem(item);
@@ -415,6 +468,7 @@ function addCity (item, element) {
                         Obj[str] = newVal;
                     }
                 }
+                addCityToObject(valueRegion, countryValue, input.value);
 
                 addItem.remove();
                 editingItem(item);
@@ -562,14 +616,6 @@ function editingItem (item) {
     }
 }
 
-function addingCountry (value) {
-    
-}
-
-function addingCity (value) {
-    
-}
-
 function searchSelection (name, item) {
     const selection = item.getElementsByTagName('select')[0];
     const optionValue = selection.querySelectorAll('option');
@@ -619,4 +665,36 @@ function populateSelection (item, index, region, country) {
     }
 }
 
+// Function for looping through RegionArray
 
+function dataCity (data) {
+    
+}
+
+function addCountryToObject (val, input) {
+    //Go through RegionArray
+    for(let i = 0; i < regionArray.length; i++) {
+        if(regionArray[i].region == val && regionArray[i].country == undefined) {
+            regionArray[i].country = input;
+            break;
+        } else {
+            const newRegion = new City(`${val}`,`${input}`);
+            regionArray.push(newRegion);
+            break;
+        }
+    }
+}
+
+function addCityToObject (val, country, input) {
+     //Go through RegionArray
+     for(let i = 0; i < regionArray.length; i++) {
+        if(regionArray[i].region == val && regionArray[i].country == country && regionArray[i].city == undefined) {
+            regionArray[i].city = input;
+            break;
+        } else {
+            const newRegion = new City(`${val}`,`${country}`, `${input}`);
+            regionArray.push(newRegion);
+            break;
+        }
+    }
+}
