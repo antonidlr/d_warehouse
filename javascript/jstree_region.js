@@ -1,4 +1,3 @@
-
 //Variables Region
 const addRegion = document.getElementsByClassName('add_button')[0];
 const addInput = document.getElementsByClassName('add-input')[0];
@@ -120,17 +119,19 @@ function getRegion () {
         arrayTest.push(valueReg)
         console.log(arrayTest);
         regions.push(region);
-
+        
         const newRegion = new City(`${valueRegion}`);
         regionArray.push(newRegion);
         console.log(regionArray);
-
+        
         addingRegionHtml(valueRegion);
         addingIdRegion();
-        checkItem();
-
-        //editListener();
         
+        checkItem();
+        checkEdit();
+        deleteSelection(); 
+        
+        //editListener();
     }
 }
 
@@ -165,6 +166,16 @@ function addingRegionHtml (value) {
     <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
     <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
     </div>
+    <div class="add-item p-hide">
+    <input class="add-text" type="text" placeholder="Insertar país">
+    <button class="b-add">Guardar</button>
+    <button class="b-add">Cancelar</button>
+    </div>
+    <div class="e-item c-hide">
+    <input class="add-text" type="text" placeholder="Editar país">
+    <button class="b-add">Actualizar</button>
+    <button class="b-add">Cancelar</button>
+    </div>
     </div>
     
     <div class="box-city b-align">
@@ -177,6 +188,16 @@ function addingRegionHtml (value) {
     <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
     <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
     </div>
+    <div class="add-item c-hide">
+    <input class="add-text" type="text" placeholder="Insertar ciudad">
+    <button class="b-add">Guardar</button>
+    <button class="b-add">Cancelar</button>
+    </div>
+    <div class="e-item c-hide">
+    <input class="add-text" type="text" placeholder="Editar ciudad">
+    <button class="b-add">Actualizar</button>
+    <button class="b-add">Cancelar</button>
+    </div>
     </div>
     </div>
     `;
@@ -188,6 +209,8 @@ function addingRegionHtml (value) {
 
 function addingIdRegion () {
     const totalRegion = document.getElementsByClassName('main-box-region');
+    const countryContainer = document.querySelectorAll('.box-country');
+    const cityContainer = document.querySelectorAll('.box-city');
     const deleteButton = document.getElementsByClassName('box-region');
     for(let i = 0; i < totalRegion.length; i++) {
         if (totalRegion[i].getAttribute('id') == null) {
@@ -216,6 +239,16 @@ function addingIdRegion () {
                     }
                 })
                 
+                const sectionCountry = countryContainer[totalRegion.length-1];
+                const addButton = countryContainer[totalRegion.length-1].querySelectorAll('.add-country')[0];
+                addCountry(sectionCountry, addButton);
+                editingCountry(sectionCountry);
+                
+                const sectionCity = cityContainer[totalRegion.length-1];
+                const addButtonCity = cityContainer[totalRegion.length-1].querySelectorAll('.add-city')[0];
+                addCity(sectionCity, addButtonCity);
+                editingCity(sectionCity);
+                
             } else if (totalRegion[i-1].getAttribute('id') == totalRegion.length-1) {
                 totalRegion[totalRegion.length-1].setAttribute("id", totalRegion.length);
                 deleteButton[totalRegion.length-1].querySelector('.b-delete').setAttribute("id", totalRegion.length);
@@ -239,6 +272,16 @@ function addingIdRegion () {
                         populateSelection(itm, ind, nameReg, opt);
                     }
                 })
+                
+                const sectionCountry = countryContainer[totalRegion.length-1];
+                const addButton = countryContainer[totalRegion.length-1].querySelectorAll('.add-country')[0];
+                addCountry(sectionCountry, addButton);
+                editingCountry(sectionCountry);
+                
+                const sectionCity = cityContainer[totalRegion.length-1];
+                const addButtonCity = cityContainer[totalRegion.length-1].querySelectorAll('.add-city')[0];
+                addCity(sectionCity, addButtonCity);
+                editingCity(sectionCity);
             }
             
         }
@@ -272,7 +315,7 @@ function qRegion (region) {
 }
 
 function changeValue () {
-
+    
 }
 
 // Adding Country and City ------------------------------------------------------------
@@ -286,33 +329,96 @@ function checkItem () {
         const sectionCountry = item.target.parentNode;
         const addButton = item.target.parentNode.querySelector('.add-country');
         
-        addingItem('Insertar país', sectionCountry);
-        addCountry(sectionCountry, addButton);
-        
-        
+        if(addButton == null) {
+            sectionCountry.parentNode.querySelector('.edit-item').style.display = 'none';
+            sectionCountry.parentNode.querySelector('.p-hide').style.display = 'block';
+            addButton.disabled = true;
+            
+        } else {
+            sectionCountry.querySelector('.edit-item').style.display = 'none';
+            sectionCountry.querySelector('.p-hide').style.display = 'block';
+            addButton.disabled = true;
+            
+        }
     })
     
     cityContainer[totalRegion.length-1].querySelectorAll('.add-city')[0].addEventListener('click', (item) => {
-        
         const sectionCity = item.target.parentNode;
         const addButton = item.target.parentNode.querySelector('.add-city');    
         
-        addingItem('Insertar ciudad', item.target.parentNode);
-        addCity(sectionCity, addButton);
+        if(addButton == null) {
+            sectionCity.parentNode.querySelector('.edit-item').style.display = 'none';
+            sectionCity.parentNode.querySelector('.c-hide').style.display = 'block';
+            addButton.disabled = true;
+        } else {
+            sectionCity.querySelector('.edit-item').style.display = 'none';
+            sectionCity.querySelector('.c-hide').style.display = 'block';
+            addButton.disabled = true;
+        }
         
     })    
+}
+
+// DELETE Selection Country or City ----------------
+function deleteSelection () {
+    const totalRegion = document.getElementsByClassName('main-box-region');
+    const countryContainer = document.querySelectorAll('.box-country');
+    const cityContainer = document.querySelectorAll('.box-city');
+    
+    countryContainer[totalRegion.length-1].querySelectorAll('.b-delete')[0].addEventListener('click', (item) => {
+        // const sectionCountry = item.target.parentNode;
+        // const addButton = item.target.parentNode.querySelector('.add-country');
+        
+        // addingItem('Insertar país', sectionCountry);
+        // addCountry(sectionCountry, addButton);
+        const countrySelection = countryContainer[0].getElementsByTagName('select')[0];
+        console.log(countrySelection.selectedIndex);
+        if(countrySelection.selectedIndex == 0) {
+            alert('Seleccione País');
+        } 
+        // let result = confirm('¿Desea borrar País?');
+        // if(result) {
+        //     for(let x=0; x< regions.length; x++) {
+        //         if( val == regions[x].region) {
+        //             regions.splice(x,1);
+        //             arrayTest.splice(x,1);
+        //         }
+        //     }
+        //     document.getElementById(element.target.id).remove(); 
+        // }
+        console.log('Borrar Pais');
+        
+        
+        // const countryValue = countrySelection.value;
+        // const val = searchSelection (input.value, item);
+        // if(e.which === 13 && !val && input.value != "") {
+        //     if(countrySelection.selectedIndex == 0) {
+        //         alert('Selecciona País');
+        //     }
+        
+    })
+    
+    cityContainer[totalRegion.length-1].querySelectorAll('.b-delete')[0].addEventListener('click', (item) => {
+        
+        // const sectionCity = item.target.parentNode;
+        // const addButton = item.target.parentNode.querySelector('.add-city');    
+        
+        // addingItem('Insertar ciudad', item.target.parentNode);
+        // addCity(sectionCity, addButton);
+        console.log('Borrar Ciudad');
+    })   
+    
 }
 
 //1. Add Country to list option to Region
 
 function addCountry (item, element) {
     const totalRegion = document.getElementsByClassName('main-box-region');
+    const countryContainer = document.querySelectorAll('.box-country');
     const value = item.getElementsByTagName('select')[0];
-    element.disabled = true;
     const save = item.querySelectorAll('.b-add')[0];
     const cancel = item.querySelectorAll('.b-add')[1];
     const input = item.querySelectorAll('.add-text')[0];
-    
     save.addEventListener('click', () => {
         const val = searchSelection (input.value, item);
         if(!val && input.value != "") {
@@ -329,22 +435,15 @@ function addCountry (item, element) {
                 }
             }
             
-            //Go through RegionArray
-            // for(let i = 0; i < regionArray.length; i++) {
-            //     if(regionArray[i].region == valueRegion && regionArray[i].country == undefined) {
-            //         regionArray[i].country = input.value;
-            //         break;
-            //     } else {
-            //         const newRegion = new City(`${valueRegion}`,`${input.value}`);
-            //         regionArray.push(newRegion);
-            //         break;
-            //     }
-            // }
             addCountryToObject(valueRegion, input.value);
-
+            
             const addItem = item.getElementsByClassName('add-item')[0];
-            addItem.remove();
-            editingItem(item);
+            addItem.style.display = 'none';
+            input.value = "";
+            const editItem = item.getElementsByClassName('edit-item')[0];
+            editItem.style.display = 'flex';
+            // addItem.remove();
+            // editingItem(item);
             element.disabled = false;
         }
         
@@ -366,36 +465,42 @@ function addCountry (item, element) {
             }
             
             addCountryToObject(valueRegion, input.value);
-
+            
             const addItem = item.getElementsByClassName('add-item')[0];
-            addItem.remove();
-            editingItem(item);
+            addItem.style.display = 'none';
+            input.value = "";
+            const editItem = item.getElementsByClassName('edit-item')[0];
+            editItem.style.display = 'flex';
+            // addItem.remove();
+            // editingItem(item);
             element.disabled = false;
             
         }
     });
     
     cancel.addEventListener('click', (event) => {
-        const addItem = item.getElementsByClassName('add-item');
-        if(addItem.length > 0) {
-            addItem[0].remove();
-        }
-        editingItem(item);
-        editListener();
+        const editItem = item.getElementsByClassName('edit-item')[0];
+        const addItem = item.getElementsByClassName('add-item')[0];
+        editItem.style.display = 'flex';
+        addItem.style.display = 'none';
+        input.value = "";
+        //countryContainer.querySelector('.edit-item').style.display = 'block';
+        // if(addItem.length > 0) {
+        //     addItem[0].remove();
+        // }
+        // editingItem(item);
+        //editListener();
         element.disabled = false;
-        event.stopPropagation();
+        //event.stopPropagation();
     })
 }
 
 function addCity (item, element) {
     const value = item.getElementsByTagName('select')[0];
-    element.disabled = true;
     const save = item.querySelectorAll('.b-add')[0];
     const cancel = item.querySelectorAll('.b-add')[1];
     const input = item.querySelectorAll('.add-text')[0];
     const totalRegion = document.getElementsByClassName('main-box-region');
-    
-    
     
     save.addEventListener('click', () => {
         const country = item.parentNode.querySelector('.box-country');
@@ -410,7 +515,7 @@ function addCity (item, element) {
             const newOption = createItem (input.value);
             value.appendChild(newOption);
             const addItem = item.getElementsByClassName('add-item')[0];
-
+            
             const newVal = input.value;
             const str = newVal.substring(0,3);
             const regionParent = item.parentNode;
@@ -433,14 +538,18 @@ function addCity (item, element) {
             //         break;
             //     }
             // }
-
+            
             addCityToObject(valueRegion, countryValue, input.value);
-
-            addItem.remove();
-            editingItem(item);
+            
+            addItem.style.display = 'none';
+            input.value = "";
+            const editItem = item.getElementsByClassName('edit-item')[0];
+            editItem.style.display = 'flex';
+            
+            
             element.disabled = false;
         }
-         
+        
     })
     
     input.addEventListener('keyup', (e) => {
@@ -452,12 +561,12 @@ function addCity (item, element) {
             if(countrySelection.selectedIndex == 0) {
                 alert('Selecciona País');
             }
-
+            
             if(countrySelection.selectedIndex != 0) {
                 const newOption = createItem (input.value);
                 value.appendChild(newOption);
                 const addItem = item.getElementsByClassName('add-item')[0];
-
+                
                 const newVal = input.value;
                 const str = newVal.substring(0,3);
                 const regionParent = item.parentNode;
@@ -469,92 +578,79 @@ function addCity (item, element) {
                     }
                 }
                 addCityToObject(valueRegion, countryValue, input.value);
-
-                addItem.remove();
-                editingItem(item);
+                
+                addItem.style.display = 'none';
+                input.value = "";
+                const editItem = item.getElementsByClassName('edit-item')[0];
+                editItem.style.display = 'flex';
+                
                 element.disabled = false;
             }
         }
     });
     
     cancel.addEventListener('click', (event) => {
-        const addItem = item.getElementsByClassName('add-item');
-        if(addItem.length > 0) {
-            addItem[0].remove();
-        }
-        editingItem(item);
-        editListener();
+        const editItem = item.getElementsByClassName('edit-item')[0];
+        const addItem = item.getElementsByClassName('add-item')[0];
+        editItem.style.display = 'flex';
+        addItem.style.display = 'none';
+        input.value = "";
         element.disabled = false;
-        event.stopPropagation();
+        
     })
 }
 
+// Editing Buttons ---------------------------------------
 
-
-
-
-function editListener () {
+function checkEdit() {
+    const totalRegion = document.getElementsByClassName('main-box-region');
     const countryContainer = document.querySelectorAll('.box-country');
     const cityContainer = document.querySelectorAll('.box-city');
-    countryContainer.forEach(item => {
-        item.querySelectorAll('.b-edit').forEach(element => {
-            element.addEventListener('click', event => {
-                console.log('holaaaaa');
-                addingItem('Editar selección', item);
-                //event.stopPropagation();
-            })
-            
-        })
+    
+    countryContainer[totalRegion.length-1].querySelectorAll('.b-edit')[0].addEventListener('click', (item) => {
+        const sectionCountry = item.target.parentNode;
+        sectionCountry.parentNode.querySelector('.edit-item').style.display = 'none';
+        sectionCountry.parentNode.querySelector('.e-item').style.display = 'block';
         
-        item.querySelectorAll('.b-delete').forEach(element => {
-            element.addEventListener('click', event => {
-                console.log('holaaaaa');
-                
-                //event.stopPropagation();
-            })
-            
-        })
     })
     
-    cityContainer.forEach(item => {
-        item.querySelectorAll('.b-edit').forEach(element => {
-            element.addEventListener('click', event => {
-                console.log('holaaaaa');
-                
-                //event.stopPropagation();
-            })
-            
-        })
+    cityContainer[totalRegion.length-1].querySelectorAll('.b-edit')[0].addEventListener('click', (item) => {
+        const sectionCity = item.target.parentNode;
+        sectionCity.parentNode.querySelector('.edit-item').style.display = 'none';
+        sectionCity.parentNode.querySelector('.e-item').style.display = 'block';
         
-        item.querySelectorAll('.b-delete').forEach(element => {
-            element.addEventListener('click', event => {
-                console.log('holaaaaa');
-                
-                //event.stopPropagation();
-            })
-            
-        })
-    })
+    })    
 }
 
 
-
-
-function editingSelection (item, element) {
+function editingCountry (item, element) {
     const value = item.getElementsByTagName('select')[0];
-    const save = item.querySelectorAll('.b-add')[0];
-    const cancel = item.querySelectorAll('.b-add')[1];
-    const input = item.querySelectorAll('.add-text')[0];
-    
-    save.addEventListener('click', () => {
+    const save = item.getElementsByClassName('e-item')[0].querySelectorAll('.b-add')[0];
+    const cancel = item.getElementsByClassName('e-item')[0].querySelectorAll('.b-add')[1];
+    const input = item.getElementsByClassName('e-item')[0].querySelectorAll('.add-text')[0];
+    const editItem = item.getElementsByClassName('edit-item')[0];
+    const eItem = item.getElementsByClassName('e-item')[0];
+
+    save.addEventListener('click', (e) => {
+        const element = e.target.parentNode.parentNode;
+        const countrySelection = element.getElementsByTagName('select')[0];
+        console.log(element);
+        console.log(countrySelection);
+
         const val = searchSelection (input.value, item);
-        if(!val && input.value != "") {
+        if(countrySelection.selectedIndex == 0) {
+            alert('Selecciona País');
+        } else if(!val && input.value != "") {
             const newOption = createItem (input.value);
             value.appendChild(newOption);
             const addItem = item.getElementsByClassName('add-item')[0];
-            addItem.remove();
-            editingItem(item);
+
+            editItem.style.display = 'flex';
+            eItem.style.display = 'none';
+            input.value = "";
         }
+
+        
     })
     
     input.addEventListener('keyup', (e) => {
@@ -563,17 +659,20 @@ function editingSelection (item, element) {
             const newOption = createItem (input.value);
             value.appendChild(newOption);
             const addItem = item.getElementsByClassName('add-item')[0];
-            addItem.remove();
-            editingItem(item);
+
         }
+
+        editItem.style.display = 'flex';
+        eItem.style.display = 'none';
+        input.value = "";
     });
     
     cancel.addEventListener('click', (event) => {
-        const addItem = item.getElementsByClassName('add-item')[0];
-        addItem.remove();
-        editingItem(item);
-        editListener();
-        event.stopPropagation();
+        
+        editItem.style.display = 'flex';
+        eItem.style.display = 'none';
+        input.value = "";
+
     })
     
     value.addEventListener('change', (e) => {
@@ -584,37 +683,85 @@ function editingSelection (item, element) {
     })
 }
 
-function addingItem (value, item) {
-    let editItem = item.getElementsByClassName('edit-item');
-    if(editItem.length > 0) {
-        editItem[0].remove();
-    }
-    const section = `
-    <div class="add-item">
-    <input class="add-text" type="text" placeholder="${value}">
-    <button class="b-add">Guardar</button>
-    <button class="b-add">Cancelar</button>
-    </div>
-    `;
-    const itemExist = item.getElementsByClassName('add-item');
-    if(itemExist.length === 0) {
-        
-        item.insertAdjacentHTML('beforeend', section);
-    }
-};
 
-function editingItem (item) {
-    const section = `
-    <div class="edit-item">
-    <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
-    <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
-    </div>
-    `;
-    const itemExist = item.getElementsByClassName('edit-item');
-    if(itemExist.length === 0) {
-        item.insertAdjacentHTML('beforeend', section);
-    }
+function editingCity (item, element) {
+    const value = item.getElementsByTagName('select')[0];
+    const save = item.getElementsByClassName('e-item')[0].querySelectorAll('.b-add')[0];
+    const cancel = item.getElementsByClassName('e-item')[0].querySelectorAll('.b-add')[1];
+    const input = item.getElementsByClassName('e-item')[0].querySelectorAll('.add-text')[0];
+    
+    save.addEventListener('click', () => {
+        const val = searchSelection (input.value, item);
+        if(!val && input.value != "") {
+            const newOption = createItem (input.value);
+            value.appendChild(newOption);
+            const addItem = item.getElementsByClassName('add-item')[0];
+
+            // addItem.remove();
+            // editingItem(item);
+        }
+    })
+    
+    input.addEventListener('keyup', (e) => {
+        const val = searchSelection (input.value, item);
+        if(e.which === 13 && !val && input.value != "") {
+            const newOption = createItem (input.value);
+            value.appendChild(newOption);
+            const addItem = item.getElementsByClassName('add-item')[0];
+
+            // addItem.remove();
+            // editingItem(item);
+        }
+    });
+    
+    cancel.addEventListener('click', (event) => {
+        const editItem = item.getElementsByClassName('edit-item')[0];
+        const eItem = item.getElementsByClassName('e-item')[0];
+        editItem.style.display = 'flex';
+        eItem.style.display = 'none';
+        input.value = "";
+
+    })
+    
+    value.addEventListener('change', (e) => {
+        console.log(value.value);
+        if(value.value === input.value) {
+            
+        }
+    })
 }
+
+// function addingItem (value, item) {
+//     let editItem = item.getElementsByClassName('edit-item');
+//     if(editItem.length > 0) {
+//         editItem[0].remove();
+//     }
+//     const section = `
+//     <div class="add-item">
+//     <input class="add-text" type="text" placeholder="${value}">
+//     <button class="b-add">Guardar</button>
+//     <button class="b-add">Cancelar</button>
+//     </div>
+//     `;
+//     const itemExist = item.getElementsByClassName('add-item');
+//     if(itemExist.length === 0) {
+
+//         item.insertAdjacentHTML('beforeend', section);
+//     }
+// };
+
+// function editingItem (item) {
+//     const section = `
+//     <div class="edit-item">
+//     <button class="b-region b-margin-2 b-edit"> <img class="box-img" src="../assets/pencil_blue.svg" alt="add"> Editar </button>
+//     <button class="b-region b-margin-2 b-delete"> <img class="box-img" src="../assets/trashcan.svg" alt="add"> Borrar </button>
+//     </div>
+//     `;
+//     const itemExist = item.getElementsByClassName('edit-item');
+//     if(itemExist.length === 0) {
+//         item.insertAdjacentHTML('beforeend', section);
+//     }
+// }
 
 function searchSelection (name, item) {
     const selection = item.getElementsByTagName('select')[0];
@@ -634,6 +781,7 @@ function validateItem (name, item) {
     
 }
 
+// ---------------------------------------------------------------
 function createItem (name) {
     const option = document.createElement('option');
     option.innerText = name;
@@ -677,7 +825,7 @@ function addCountryToObject (val, input) {
         if(regionArray[i].region == val && regionArray[i].country == undefined) {
             regionArray[i].country = input;
             break;
-        } else {
+        } else if (i == regionArray.length-1) {
             const newRegion = new City(`${val}`,`${input}`);
             regionArray.push(newRegion);
             break;
@@ -686,12 +834,12 @@ function addCountryToObject (val, input) {
 }
 
 function addCityToObject (val, country, input) {
-     //Go through RegionArray
-     for(let i = 0; i < regionArray.length; i++) {
+    //Go through RegionArray
+    for(let i = 0; i < regionArray.length; i++) {
         if(regionArray[i].region == val && regionArray[i].country == country && regionArray[i].city == undefined) {
             regionArray[i].city = input;
             break;
-        } else {
+        } else if (i == regionArray.length-1) {
             const newRegion = new City(`${val}`,`${country}`, `${input}`);
             regionArray.push(newRegion);
             break;
