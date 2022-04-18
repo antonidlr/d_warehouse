@@ -205,7 +205,7 @@ function addingRegionHtml (value) {
     sectionRegion.insertAdjacentHTML('beforeend',section);
 };
 
-// Adding ID to Region - Create Node with Region and buttons
+// Adding ID to Region - Create Node with Region and buttons *************************************
 
 function addingIdRegion () {
     const totalRegion = document.getElementsByClassName('main-box-region');
