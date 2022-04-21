@@ -17,7 +17,7 @@ let regionsArray = [];
 //           pais: "Francia",
 //           ciudades: [
 //             "Paris",
-//             "Lion"
+//             "Lyon"
 //           ]
 //         }
 //       ]
@@ -59,6 +59,14 @@ addSection[0].addEventListener('click', () => {
                 addCity(mainSection);
                 cancelCity(mainSection);
 
+                saveCountry(mainSection);
+
+                editCountry(mainSection);
+                cancelEdCountry(mainSection);
+
+                editCity(mainSection);
+                cancelEdCity(mainSection);
+
                 let region = `${valueRegion}`;
                 let paises = [];
                 let valueReg = {region, paises};
@@ -99,12 +107,12 @@ function addingRegionHtml (value) {
     </div>
     <div class="add-item p-hide">
     <input class="add-text" type="text" placeholder="Insertar país">
-    <button class="b-add">Guardar</button>
+    <button class="b-add b-save">Guardar</button>
     <button class="b-add b-cancel-add">Cancelar</button>
     </div>
     <div class="e-item c-hide">
     <input class="add-text" type="text" placeholder="Editar país">
-    <button class="b-add">Actualizar</button>
+    <button class="b-add b-update">Actualizar</button>
     <button class="b-add b-cancel-edit">Cancelar</button>
     </div>
     </div>
@@ -121,12 +129,12 @@ function addingRegionHtml (value) {
     </div>
     <div class="add-item c-hide">
     <input class="add-text" type="text" placeholder="Insertar ciudad">
-    <button class="b-add">Guardar</button>
+    <button class="b-add b-save">Guardar</button>
     <button class="b-add b-cancel-add">Cancelar</button>
     </div>
     <div class="e-item c-hide">
     <input class="add-text" type="text" placeholder="Editar ciudad">
-    <button class="b-add">Actualizar</button>
+    <button class="b-add b-update">Actualizar</button>
     <button class="b-add b-cancel-edit">Cancelar</button>
     </div>
     </div>
@@ -188,7 +196,7 @@ function deleteRegion(section) {
     })
 }
 
-// Función Agregar País
+// Función Agregar País *******************************************
 
 function addCountry(section) {
     const addButtonCountry = section.getElementsByClassName('add-country')[0];
@@ -200,6 +208,17 @@ function addCountry(section) {
         addItem.style.display = 'flex';
         addButtonCountry.disabled = true;
     });
+}
+
+function saveCountry(section) {
+    const saveButton = section.getElementsByClassName('b-save')[0];
+    const input = section.querySelectorAll('.add-text')[0];
+    const valCountry = section.getElementsByTagName('select')[0];
+    saveButton.addEventListener('click', () => {
+        console.log('Save Country');
+        const newOption = createItem (input.value);
+        valCountry.appendChild(newOption);
+    })
 }
 
 // Función Cancelar agregar país
@@ -239,7 +258,7 @@ function cancelCity(section) {
     const addButtonCity = section.getElementsByClassName('add-city')[0];
     const addItem = section.getElementsByClassName('add-item')[1];
     const editItem = section.getElementsByClassName('edit-item')[1];
-    const input = section.querySelectorAll('.add-text')[1];
+    const input = section.querySelectorAll('.add-text')[2];
     cancelC.addEventListener('click', () => {
         addItem.style.display = 'none';
         editItem.style.display = 'flex';
@@ -248,6 +267,77 @@ function cancelCity(section) {
     })
 }
 
+//Función EDITAR País
+
+function editCountry(section) {
+    const editButton = section.getElementsByClassName('b-edit')[0];
+    const editItem = section.getElementsByClassName('edit-item')[0];
+    const editSection = section.getElementsByClassName('e-item')[0];
+    const addButtonCountry = section.getElementsByClassName('add-country')[0];
+    editButton.addEventListener('click', () => {
+        console.log('Edit button');
+        editItem.style.display = 'none';
+        editSection.style.display = 'flex';
+        addButtonCountry.disabled = true;
+    })
+}
+
+// Función Cancel edición país
+
+function cancelEdCountry(section) {
+    const cancelE = section.getElementsByClassName('b-cancel-edit')[0];
+    const editItem = section.getElementsByClassName('edit-item')[0];
+    const editSection = section.getElementsByClassName('e-item')[0];
+    const input = section.querySelectorAll('.add-text')[1];
+    const addButtonCountry = section.getElementsByClassName('add-country')[0];
+    cancelE.addEventListener('click', () => {
+        
+        editSection.style.display = 'none';
+        editItem.style.display = 'flex';
+        input.value = "";
+        addButtonCountry.disabled = false;
+    })
+}
+
+
+//Función Editar ciudad
+
+function editCity(section) {
+    const editButton = section.getElementsByClassName('b-edit')[1];
+    const editItem = section.getElementsByClassName('edit-item')[1];
+    const editSection = section.getElementsByClassName('e-item')[1];
+    const addButtonCity = section.getElementsByClassName('add-city')[0];
+    editButton.addEventListener('click', () => {
+        console.log('Edit City');
+        editItem.style.display = 'none';
+        editSection.style.display = 'flex';
+        addButtonCity.disabled = true;
+    })
+}
+
+//Función Cancelar editar ciudad
+
+function cancelEdCity(section) {
+    const cancelE = section.getElementsByClassName('b-cancel-edit')[1];
+    const editItem = section.getElementsByClassName('edit-item')[1];
+    const editSection = section.getElementsByClassName('e-item')[1];
+    const addButtonCity = section.getElementsByClassName('add-city')[0];
+    const input = section.querySelectorAll('.add-text')[3];
+    cancelE.addEventListener('click', () => {
+        editSection.style.display = 'none';
+        editItem.style.display = 'flex';
+        addButtonCity.disabled = false;
+        input.value = "";
+    })
+}
+
+
+function createItem (name) {
+    const option = document.createElement('option');
+    option.innerText = name;
+    option.value = name;
+    return option;
+}
 
 
 
