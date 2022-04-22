@@ -60,6 +60,8 @@ addSection[0].addEventListener('click', () => {
                 cancelCity(mainSection);
 
                 saveCountry(mainSection);
+                saveCity(mainSection);
+                cityBoxSelection(mainSection);
 
                 editCountry(mainSection);
                 cancelEdCountry(mainSection);
@@ -214,11 +216,125 @@ function saveCountry(section) {
     const saveButton = section.getElementsByClassName('b-save')[0];
     const input = section.querySelectorAll('.add-text')[0];
     const valCountry = section.getElementsByTagName('select')[0];
+    const valRegion = section.querySelector('.a-region').innerText;
+    
+    const addButtonCountry = section.getElementsByClassName('add-country')[0];
+    const addItem = section.getElementsByClassName('add-item')[0];
+    const editItem = section.getElementsByClassName('edit-item')[0];
+    
     saveButton.addEventListener('click', () => {
-        console.log('Save Country');
-        const newOption = createItem (input.value);
-        valCountry.appendChild(newOption);
+        
+        let pais = `${input.value}`;
+        let ciudades = [];
+        let valueReg = {pais, ciudades};
+        const exist = searchSelection(input.value, valCountry);
+
+        if(!exist) {
+            const newOption = createItem (input.value);
+            valCountry.appendChild(newOption);
+            for(let i = 0; i<regionsArray.length; i++) {
+                if(valRegion === regionsArray[i].region) {
+                    regionsArray[i].paises.push(valueReg);
+                }
+            }
+            addItem.style.display = 'none';
+            editItem.style.display = 'flex';
+            addButtonCountry.disabled = false;
+            input.value = "";
+        } else {
+            alert('El país seleccionado ya existe, selecciona un nuevo país.')
+        }
+
     })
+}
+
+function saveCity(section) {
+    const saveButton = section.getElementsByClassName('b-save')[1];
+    const input = section.querySelectorAll('.add-text')[2];
+    const valCity = section.getElementsByTagName('select')[1];
+    
+    const addButtonCity = section.getElementsByClassName('add-city')[0];
+    const addItem = section.getElementsByClassName('add-item')[1];
+    const editItem = section.getElementsByClassName('edit-item')[1];
+    
+    const valRegion = section.querySelector('.a-region').innerText;
+    const countrySelection = section.getElementsByTagName('select')[0];
+    saveButton.addEventListener('click', () => {
+        if(countrySelection.selectedIndex == 0) {
+            alert('Selecciona País');
+        } else {
+            const exist = searchSelection(input.value, valCity);
+            const countrySelected = countrySelection.options[countrySelection.selectedIndex].value;
+            
+            if(!exist) {
+                for(let i = 0; i < regionsArray.length; i++) {
+                    if(valRegion === regionsArray[i].region) {
+                        for(let x = 0; x < regionsArray[i].paises.length; x++) {
+                            if(countrySelected === regionsArray[i].paises[x].pais) {
+                                const newOption = createItem (input.value);
+                                valCity.appendChild(newOption);
+                                let ciudad = `${input.value}`;
+    
+                                regionsArray[i].paises[x].ciudades.push(ciudad);
+                                addItem.style.display = 'none';
+                                editItem.style.display = 'flex';
+                                addButtonCity.disabled = false;
+                                input.value = "";
+                            } 
+                        }
+                    }
+                } 
+            } else {
+                alert('La ciudad seleccionada ya existe, seleccione una nueva ciudad');
+            }
+        }
+    });
+}
+
+//Función Seleccion de ciudad segun Pais
+
+function cityBoxSelection(section) {
+    const countrySelection = section.getElementsByTagName('select')[0];
+    const valCity = section.getElementsByTagName('select')[1];
+    countrySelection.addEventListener('change', (e) => {
+        const countrySelected = countrySelection.options[countrySelection.selectedIndex].value;
+        const valRegion = section.querySelector('.a-region').innerText;
+        
+        console.log(countrySelected);
+        valCity.querySelectorAll('option').forEach((e) => {
+            if(e.value != 0) {
+                e.remove();
+            }
+        })
+
+        if(countrySelected != 0) {
+            for(let i = 0; i < regionsArray.length; i++) {
+                if(valRegion === regionsArray[i].region) {
+                    for(let x = 0; x < regionsArray[i].paises.length; x++) {
+                        if(countrySelected === regionsArray[i].paises[x].pais) {
+                            regionsArray[i].paises[x].ciudades.map( (e) => {
+                                const newOption = createItem (e);
+                                valCity.appendChild(newOption);
+                            })
+                        }
+                    }
+                }
+            } 
+        }
+    });
+};
+
+function searchSelection (name, item) {
+    const selection = item;
+    const optionValue = selection.querySelectorAll('option');
+    let itemExist = false;
+    optionValue.forEach((e, index) => {
+        if(e.innerText.toUpperCase() === name.toUpperCase()) {
+            itemExist = true;
+        }
+    })
+    
+    return itemExist;
 }
 
 // Función Cancelar agregar país
