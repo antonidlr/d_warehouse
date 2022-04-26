@@ -555,15 +555,33 @@ function createItem (name) {
 function deleteCountry(section) {
     const deleteButton = section.getElementsByClassName('b-delete')[1];
     const countrySelection = section.getElementsByTagName('select')[0];
+    const valRegion = section.querySelector('.a-region').innerText;
+    
+
     deleteButton.addEventListener('click', () => {
-        console.log('Delete Pais');
         let countrySelected = countrySelection.options[countrySelection.selectedIndex].value;
         let indexSelected = countrySelection.selectedIndex;
         if(indexSelected != 0) {
             let result = confirm('¿Está seguro de borrar el País seleccionado?, también se borraran las ciudades asociadas.');
             if(result) {
-                console.log(countrySelection.options[countrySelection.selectedIndex]);
                 countrySelection.options[countrySelection.selectedIndex].remove();
+
+                for(let i = 0; i<regionsArray.length; i++) {
+                    if(valRegion === regionsArray[i].region) {
+                        for(let x = 0; x < regionsArray[i].paises.length; x++) {
+                            if(countrySelected === regionsArray[i].paises[x].pais) {
+                                regionsArray[i].paises.splice(x, 1);
+                                const citySelection = section.getElementsByTagName('select')[1];
+                                citySelection.querySelectorAll('option').forEach((e) => {
+                                    if(e.value != 0) {
+                                        e.remove();
+                                    }
+                                })
+                            }
+                        }
+                    }
+                }
+
                 
             } 
         } else {
@@ -577,8 +595,39 @@ function deleteCountry(section) {
 
 function deleteCity(section) {
     const deleteButton = section.getElementsByClassName('b-delete')[2];
+    const countrySelection = section.getElementsByTagName('select')[0];
+    const valRegion = section.querySelector('.a-region').innerText;
+    const citySelection = section.getElementsByTagName('select')[1];
+
     deleteButton.addEventListener('click', () => {
-        console.log('Delete Ciudad');
+        let citySelected = citySelection.options[citySelection.selectedIndex].value;
+        let countrySelected = countrySelection.options[countrySelection.selectedIndex].value;
+        let indexSelected = citySelection.selectedIndex;
+
+        if(indexSelected != 0) {
+            let result = confirm('¿Está seguro de borrar la Ciudad seleccionada?');
+            if(result) {
+                citySelection.options[citySelection.selectedIndex].remove();
+                
+                for(let i = 0; i<regionsArray.length; i++) {
+                    if(valRegion === regionsArray[i].region) {
+                        for(let x = 0; x < regionsArray[i].paises.length; x++) {
+                            if(countrySelected === regionsArray[i].paises[x].pais) {
+                                for(let y = 0; y < regionsArray[i].paises[x].ciudades.length; y++) {
+                                    if(citySelected === regionsArray[i].paises[x].ciudades[y]) {
+                                        regionsArray[i].paises[x].ciudades.splice(y, 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            
+            }
+        } else {
+            alert('Seleccione la Ciudad que desea borrar');
+        }
+        
     })
 }
 
