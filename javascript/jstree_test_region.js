@@ -40,6 +40,20 @@ cancelButton.addEventListener('click', () => {
 //Adding Section for Region
 
 addSection[0].addEventListener('click', () => {
+    
+    saveMainSection();
+
+})
+
+inputText.addEventListener('keyup', (e) => {
+    if(e.which === 13) {
+
+        saveMainSection();
+        
+    }
+})
+
+function saveMainSection () {
     if(inputText.value != "") {
         let result = confirm('¿Desea agregar región?');
         if(result) {
@@ -88,7 +102,8 @@ addSection[0].addEventListener('click', () => {
             }
         }
     }
-})
+}
+
 
 
 
