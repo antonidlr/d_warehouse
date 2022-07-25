@@ -846,3 +846,131 @@ function addCityToObject (val, country, input) {
         }
     }
 }
+
+///////////
+
+function saveCountry(section) {
+    const saveButton = section.getElementsByClassName('b-save')[0];
+    const input = section.querySelectorAll('.add-text')[0];
+    const valCountry = section.getElementsByTagName('select')[0];
+    const valRegion = section.querySelector('.a-region').innerText;
+    
+    const addButtonCountry = section.getElementsByClassName('add-country')[0];
+    const addItem = section.getElementsByClassName('add-item')[0];
+    const editItem = section.getElementsByClassName('edit-item')[0];
+    
+    saveButton.addEventListener('click', () => {
+        
+        let pais = `${input.value}`;
+        let ciudades = [];
+        let valueReg = {pais, ciudades};
+        const exist = searchSelection(input.value, valCountry);
+
+        if(!exist) {
+            const newOption = createItem (input.value);
+            valCountry.appendChild(newOption);
+            for(let i = 0; i<regionsArray.length; i++) {
+                if(valRegion === regionsArray[i].region) {
+                    regionsArray[i].paises.push(valueReg);
+                }
+            }
+            addItem.style.display = 'none';
+            editItem.style.display = 'flex';
+            addButtonCountry.disabled = false;
+            input.value = "";
+        } else {
+            alert('El país seleccionado ya existe, selecciona un nuevo país.')
+        }
+
+    })
+}
+
+function cityBoxSelection(section) {
+    const countrySelection = section.getElementsByTagName('select')[0];
+    const valCity = section.getElementsByTagName('select')[1];
+    countrySelection.addEventListener('change', (e) => {
+        const countrySelected = countrySelection.options[countrySelection.selectedIndex].value;
+        const valRegion = section.querySelector('.a-region').innerText;
+        
+        console.log(countrySelected);
+        valCity.querySelectorAll('option').forEach((e) => {
+            if(e.value != 0) {
+                e.remove();
+            }
+        })
+
+        if(countrySelected != 0) {
+            for(let i = 0; i < regionsArray.length; i++) {
+                if(valRegion === regionsArray[i].region) {
+                    for(let x = 0; x < regionsArray[i].paises.length; x++) {
+                        if(countrySelected === regionsArray[i].paises[x].pais) {
+                            regionsArray[i].paises[x].ciudades.map( (e) => {
+                                const newOption = createItem (e);
+                                valCity.appendChild(newOption);
+                            })
+                        }
+                    }
+                }
+            } 
+        }
+    });
+};
+
+function saveEditCountry (section) {
+    const updateButton = section.getElementsByClassName('b-update')[0];
+    const input = section.querySelectorAll('.add-text')[1];
+    const countrySelection = section.getElementsByTagName('select')[0];
+    const valRegion = section.querySelector('.a-region').innerText;
+    const addButtonCountry = section.getElementsByClassName('add-country')[0];
+
+    const editItem = section.getElementsByClassName('edit-item')[0];
+    const editSection = section.getElementsByClassName('e-item')[0];
+
+    updateButton.addEventListener('click', () => {
+        let countrySelected = countrySelection.options[countrySelection.selectedIndex].value;
+        let indexSelected = countrySelection.selectedIndex;
+        if(input.value != "") {
+            let result = confirm('¿Está seguro de actualizar el País seleccionado?');
+            if(result) {
+                if(input.value != countrySelected && indexSelected != 0) {
+                    countrySelection.options[countrySelection.selectedIndex].value = input.value;
+                    countrySelection.options[countrySelection.selectedIndex].innerText = input.value;
+                    
+                    for(let i = 0; i<regionsArray.length; i++) {
+                        if(valRegion === regionsArray[i].region) {
+                            for(let x = 0; x < regionsArray[i].paises.length; x++) {
+                                if(countrySelected === regionsArray[i].paises[x].pais) {
+                                    regionsArray[i].paises[x].pais = input.value;
+                                }
+                            }
+                        }
+                    }
+        
+                    editSection.style.display = 'none';
+                    editItem.style.display = 'flex';
+                    addButtonCountry.disabled = false;
+                    input.value = "";
+        
+                }
+            }
+        }
+    })
+}
+
+function deleteRegion(section) {
+    const deleteButton = section.getElementsByClassName('b-delete')[0];
+    deleteButton.addEventListener('click', () => {
+        let result = confirm('¿Desea borrar región?');
+        if(result) {
+            section.remove();
+            const valRegion = section.querySelector('.a-region').innerText;
+            console.log('region '+ valRegion);
+            
+            for(let i=0; i<regionsArray.length; i++) {
+                if(valRegion === regionsArray[i].region) {
+                    regionsArray.splice(i, 1);
+                }
+            }
+        }
+    })
+}
